@@ -37,43 +37,49 @@ STEP 5:Normalizing the data<BR>
 STEP 6:Splitting the data into test and train<BR>
 
 ##  PROGRAM:
+```
+#import libraries
+from google.colab import files
 import pandas as pd
 import io
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 
-df=pd.read_csv('/content/Churn_Modelling.csv')
-print(df.head())
+#Read the dataset from drive
+df=pd.read_csv("/content/Churn_Modelling.csv")
+df
 
-X=df.iloc[:,:-1].values
-print(X)
+df.isnull().sum()
 
-y=df.iloc[:,-1].values
-print(y)
-
-print(df.isnull().sum())
-
+#check for duplication
 df.duplicated()
 
-df.describe()
+print(df['CreditScore'].describe())
 
-df = df.drop(['Surname', 'Geography','Gender'], axis=1)
-df.head()
+df.info()
 
-scaler=MinMaxScaler()
-df1=pd.DataFrame(scaler.fit_transform(df))
-print(df1)
+df.drop(['Surname','Geography','Gender'],axis=1,inplace=True)
+df
 
-X_train ,X_test ,y_train,y_test=train_test_split(X,y,test_size=0.2)
+Scaler=MinMaxScaler()
+df1=pd.DataFrame(Scaler.fit_transform(df))
+df1
+
+X = df1.iloc[:, :-1].values
+print(X)
+
+y = df1.iloc[:,-1].values
+print(y)
+
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2,random_state=25)
 
 print(X_train)
 print(len(X_train))
 
 print(X_test)
 print(len(X_test))
-
-
+```
 ## OUTPUT:
 ![image](https://github.com/user-attachments/assets/6ffc1d32-fc5c-4a5d-8473-fde9d0d9df05)
 
